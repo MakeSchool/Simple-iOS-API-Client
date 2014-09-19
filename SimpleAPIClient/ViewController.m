@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIView *loginStatusBar;
 @property (weak, nonatomic) IBOutlet UILabel *loginStatusLabel;
 @property (strong, nonatomic) NSArray *candies;
+@property (nonatomic) BOOL loggedIn;
+@property (copy, nonatomic) NSString *username;
 
 @end
 
@@ -32,22 +34,39 @@ static NSString *const kPassword = @"ü?--Öälschgf";
     
     self.sessionConfiguration.HTTPAdditionalHeaders = @{@"Accept": @"application/json",
                                             @"Authorization": authString};
-
-    self.loginStatusBar.backgroundColor = [UIColor greenColor];
-    self.loginStatusLabel.text = username;
+    
+    self.username = username;
 }
 
 - (void)deactivateBasicAuth {
+    
     // set new additional headers without authentication
     self.sessionConfiguration.HTTPAdditionalHeaders = @{@"Accept": @"application/json"};
-    
-    self.loginStatusBar.backgroundColor = [UIColor redColor];
-    self.loginStatusLabel.text = @"Not logged in";
 }
 - (IBAction)loginButtonPressed:(id)sender {
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration delegate:self delegateQueue:[NSOperationQueue new]];
+    
     [self activateBasicAuthWithUsername:kUsername password:kPassword];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000/candy"]];
+    NSURLSessionDataTask *getCandyTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200) {
+            self.loggedIn = YES;
+        } else if  (responseStatusCode == 401) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Error!" message:@"Invalid credentials!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            });
+        } else {
+            NSLog(@"Unknown error while trying to log in");
+        }
+    }];
+    
+    [getCandyTask resume];
 }
 - (IBAction)signoutButtonPressed:(id)sender {
+    self.loggedIn = NO;
     [self deactivateBasicAuth];
 }
 
@@ -139,7 +158,21 @@ static NSString *const kPassword = @"ü?--Öälschgf";
 
     [getCandyTask resume];
 }
-#pragma mark - Getter Override
+#pragma mark - Getter/Setter Override
+
+- (void)setLoggedIn:(BOOL)loggedIn {
+    _loggedIn = loggedIn;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (_loggedIn) {
+            self.loginStatusBar.backgroundColor = [UIColor greenColor];
+            self.loginStatusLabel.text = self.username;
+        } else {
+            self.loginStatusBar.backgroundColor = [UIColor redColor];
+            self.loginStatusLabel.text = @"Not logged in";
+        }
+    });
+}
 
 - (NSURLSessionConfiguration *)sessionConfiguration {
     if (!_sessionConfiguration) {
