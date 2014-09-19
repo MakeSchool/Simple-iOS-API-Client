@@ -11,35 +11,38 @@
 @interface ViewController () <NSURLSessionDelegate>
 
 @property (strong, nonatomic) NSURLSessionConfiguration *sessionConfiguration;
+@property (weak, nonatomic) IBOutlet UIView *loginStatusBar;
+@property (weak, nonatomic) IBOutlet UILabel *loginStatusLabel;
 
 @end
 
 @implementation ViewController
-
-+ (NSURL *)authenticatedURLForURLString:(NSString *)urlString {
-    NSString *username = @"Testuser";
-    NSString *password = @"ü?--Öälschgf";
-    
-    NSString *authenticationQuery = [NSString stringWithFormat:@"?username=%@&password=%@", username, password];
-    NSString * escapedQuery = [authenticationQuery stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    
-    NSString *finalQuery = [urlString stringByAppendingString:escapedQuery];
-    
-    return [NSURL URLWithString:finalQuery];
-}
 
 - (void)activateBasicAuthWithUsername:(NSString *)username password:(NSString *)password {
     NSString *userPasswordString = [NSString stringWithFormat:@"%@:%@", username, password];
     NSData * userPasswordData = [userPasswordString dataUsingEncoding:NSUTF8StringEncoding];
     NSString *base64EncodedCredential = [userPasswordData base64EncodedStringWithOptions:0];
     NSString *authString = [NSString stringWithFormat:@"Basic %@", base64EncodedCredential];
-    NSString *userAgentString = @"AppName/com.example.app (iPhone 5s; iOS 7.0.2; Scale/2.0)";
     
     self.sessionConfiguration.HTTPAdditionalHeaders = @{@"Accept": @"application/json",
-                                            @"Accept-Language": @"en",
-                                            @"Authorization": authString,
-                                            @"User-Agent": userAgentString};
+                                            @"Authorization": authString};
 
+    self.loginStatusBar.backgroundColor = [UIColor greenColor];
+    self.loginStatusLabel.text = username;
+}
+
+- (void)deactivateBasicAuth {
+    // set new additional headers without authentication
+    self.sessionConfiguration.HTTPAdditionalHeaders = @{@"Accept": @"application/json"};
+    
+    self.loginStatusBar.backgroundColor = [UIColor redColor];
+    self.loginStatusLabel.text = @"Not logged in";
+}
+- (IBAction)loginButtonPressed:(id)sender {
+    [self activateBasicAuthWithUsername:@"Testuser" password:@"ü?--Öälschgf"];
+}
+- (IBAction)signoutButtonPressed:(id)sender {
+    [self deactivateBasicAuth];
 }
 
 - (IBAction)signupPressed:(id)sender {
