@@ -7,14 +7,20 @@
 //
 
 #import "ViewController.h"
+#import "CandyListTableViewController.h"
+#import "Candy.h"
 
 @interface ViewController () <NSURLSessionDelegate>
 
 @property (strong, nonatomic) NSURLSessionConfiguration *sessionConfiguration;
 @property (weak, nonatomic) IBOutlet UIView *loginStatusBar;
 @property (weak, nonatomic) IBOutlet UILabel *loginStatusLabel;
+@property (strong, nonatomic) NSArray *candies;
 
 @end
+
+static NSString *const kUsername = @"Testuser";
+static NSString *const kPassword = @"ü?--Öälschgf";
 
 @implementation ViewController
 
@@ -39,7 +45,7 @@
     self.loginStatusLabel.text = @"Not logged in";
 }
 - (IBAction)loginButtonPressed:(id)sender {
-    [self activateBasicAuthWithUsername:@"Testuser" password:@"ü?--Öälschgf"];
+    [self activateBasicAuthWithUsername:kUsername password:kPassword];
 }
 - (IBAction)signoutButtonPressed:(id)sender {
     [self deactivateBasicAuth];
@@ -51,7 +57,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:3000/user"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSDictionary *userPasswordDictionary = @{@"user":@"Testuser", @"password":@"ü?--Öälschgf"};
+    NSDictionary *userPasswordDictionary = @{@"user":kUsername, @"password":kPassword};
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userPasswordDictionary options:0 error:&error];
     if (error) {
@@ -76,7 +82,7 @@
             NSDictionary *user = users[0];
             NSString *username = user[@"username"];
             NSString *successMessage = [NSString stringWithFormat:@"User %@ has been created!", username];
-            [self activateBasicAuthWithUsername:@"Testuser" password:@"ü?--Öälschgf"];
+            [self activateBasicAuthWithUsername:kUsername password:kPassword];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[[UIAlertView alloc] initWithTitle:@"Success!" message:successMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             });
@@ -103,7 +109,22 @@
     
         if (responseStatusCode == 200) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[[UIAlertView alloc] initWithTitle:@"Success!" message:@"You got candy!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                NSError *jsonError = nil;
+                NSArray *candies = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                
+                if (jsonError) {
+                    NSLog(@"Failed to parse candies!");
+                }
+
+                NSMutableArray *candyObjects = [NSMutableArray array];
+                
+                for (NSDictionary *jsonCandy in candies) {
+                    Candy *candy = [Candy candyWithJSONDictionary:jsonCandy];
+                    [candyObjects addObject:candy];
+                }
+                
+                self.candies = candyObjects;
+                [self performSegueWithIdentifier:@"showCandies" sender:self];
             });
         } else if (responseStatusCode == 401) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -136,6 +157,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showCandies"]) {
+        CandyListTableViewController *candyController = segue.destinationViewController;
+        candyController.candies = self.candies;
+    }
 }
 
 @end

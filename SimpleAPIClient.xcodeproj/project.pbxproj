@@ -14,6 +14,8 @@
 		6291420919CC9352001CC5D2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6291420819CC9352001CC5D2 /* Images.xcassets */; };
 		6291420C19CC9352001CC5D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6291420A19CC9352001CC5D2 /* LaunchScreen.xib */; };
 		6291421819CC9352001CC5D2 /* SimpleAPIClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6291421719CC9352001CC5D2 /* SimpleAPIClientTests.m */; };
+		6291422319CCE089001CC5D2 /* Candy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6291422219CCE089001CC5D2 /* Candy.m */; };
+		6291422919CCE66E001CC5D2 /* CandyListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6291422819CCE66E001CC5D2 /* CandyListTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		6291421119CC9352001CC5D2 /* SimpleAPIClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleAPIClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6291421619CC9352001CC5D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6291421719CC9352001CC5D2 /* SimpleAPIClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAPIClientTests.m; sourceTree = "<group>"; };
+		6291422119CCE089001CC5D2 /* Candy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Candy.h; sourceTree = "<group>"; };
+		6291422219CCE089001CC5D2 /* Candy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Candy.m; sourceTree = "<group>"; };
+		6291422719CCE66E001CC5D2 /* CandyListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CandyListTableViewController.h; sourceTree = "<group>"; };
+		6291422819CCE66E001CC5D2 /* CandyListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CandyListTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,10 @@
 				6291420819CC9352001CC5D2 /* Images.xcassets */,
 				6291420A19CC9352001CC5D2 /* LaunchScreen.xib */,
 				629141FB19CC9352001CC5D2 /* Supporting Files */,
+				6291422119CCE089001CC5D2 /* Candy.h */,
+				6291422219CCE089001CC5D2 /* Candy.m */,
+				6291422719CCE66E001CC5D2 /* CandyListTableViewController.h */,
+				6291422819CCE66E001CC5D2 /* CandyListTableViewController.m */,
 			);
 			path = SimpleAPIClient;
 			sourceTree = "<group>";
@@ -220,6 +230,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6291420419CC9352001CC5D2 /* ViewController.m in Sources */,
+				6291422319CCE089001CC5D2 /* Candy.m in Sources */,
+				6291422919CCE66E001CC5D2 /* CandyListTableViewController.m in Sources */,
 				6291420119CC9352001CC5D2 /* AppDelegate.m in Sources */,
 				629141FE19CC9352001CC5D2 /* main.m in Sources */,
 			);

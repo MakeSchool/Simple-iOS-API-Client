@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6C0C3B59-7307-46A3-B805-9E6A43353FD6</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SimpleAPIClient</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B0564A8968A809317C79BF96C428981B75A23487</key>
+		<string>github.com:MakeGamesWithUs/Simple-iOS-API-Client.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SimpleAPIClient.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B0564A8968A809317C79BF96C428981B75A23487</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:MakeGamesWithUs/Simple-iOS-API-Client.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B0564A8968A809317C79BF96C428981B75A23487</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B0564A8968A809317C79BF96C428981B75A23487</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SimpleAPIClient</string>
+		</dict>
+	</array>
+</dict>
+</plist>
